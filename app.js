@@ -1,4 +1,4 @@
-const debugMode = true;
+const debugMode = false;
 function isPWA(){
     const UA = navigator.userAgent;
 
