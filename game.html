@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="manifest" href="manifest.json">
+
+    <title>Playground</title>
+    <link rel="stylesheet" href="game.css">
+    <script src="logging.js"></script> 
+    <script src="levels/levelHandle.js"></script>
+    <script src="game.js"></script>
+
+  </head>
+  <body>
+    <div class="phone-wrapper">
+      <div class="container" id="contain">
+        <div class="level-board">
+          <img class="settings-icon" >
+          <p id="level-text">Level 1</p>
+          <img class="settings-icon" src="assets/exit_to_app.svg" onclick="location.replace('index.html')">
+        </div>
+        <div class="number-board">
+          <div class="number-board-item">
+            <div class="number-organizer">
+              <p class="stat-title" >MOVES</p>
+              <p><span id="moves-counter" style="font-size: 30px;">64</span>/150</p>
+            </div>
+          </div>
+          <div class="number-board-item">
+            <div class="number-organizer">
+              <p class="stat-title">GOAL</p>
+              <p><span id="goal-counter" style="font-size: 30px;">0</span>/1000</p>
+            </div>
+          </div>
+          <div class="number-board-item">
+            <div class="number-organizer">
+              <p class="stat-title">Time</p>
+              <p id="time-counter" style="font-size: 30px">00:00</p>
+            </div>
+          </div>
+        </div>
+        <div class="canvas-board">
+          <canvas id="game"></canvas>
+        </div>
+        <div class="bottom-board">
+          
+        </div>
+      </div>
+    <div>
+  </body>
+</html>
