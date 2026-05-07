@@ -4,6 +4,7 @@ function initShareButton(){
   
   shareButton.addEventListener("click", async() => {
     let file = createLoggingFile();
+
     const shareData = {
     title: "Logging File",
     text: "Share this file over WhatsApp",
@@ -27,6 +28,8 @@ function createLoggingFile(){
     promiseLogs.then(function(value){
       let content = JSON.stringify(value);
       createLoggingFile.preProcessedFile = new File([content],"Logging File.txt",options);
+      alert("Created Logging File succeeful");
+      initShareButton();
     },)
   }
   else{
@@ -74,7 +77,6 @@ function initFileUpload(){
 function main(){
   initDB();
   createLoggingFile();
-  initShareButton();
   initFileUpload();
 
 
