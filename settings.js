@@ -1,32 +1,37 @@
 
 function initShareButton(){
   const shareButton = document.getElementById("share-button");
-
-  const options = {type: 'text/plain'};
-
   
   shareButton.addEventListener("click", async() => {
+    let file = createLoggingFile();
+    const shareData = {
+    title: "Logging File",
+    text: "Share this file over WhatsApp",
+    files: [file],
+    };
+  
+    try {
+      navigator.share(shareData);
+    } catch (err) {
+      alert(`Error: ${err}`);
+    };
+});
+
+}
+
+
+function createLoggingFile(){
+  const options = {type: 'text/plain'};
+  if(createLoggingFile.preProcessedFile === undefined){
     let promiseLogs = getLogs();
     promiseLogs.then(function(value){
-      
-      const file = new File([JSON.stringify(value)],"Logging File.txt",options);
-
-      const shareData = {
-      title: "Logging File",
-      text: "Share this file over WhatsApp",
-      files: [file],
-      };
-  
-      try {
-        navigator.share(shareData);
-      } catch (err) {
-        alert(`Error: ${err}`);
-      }
-    },function(value){
-
-    })
-
-  });
+      let content = JSON.stringify(value);
+      createLoggingFile.preProcessedFile = new File([content],"Logging File.txt",options);
+    },)
+  }
+  else{
+    return createLoggingFile.preProcessedFile;
+  }
 }
 
 function initFileUpload(){
@@ -68,6 +73,7 @@ function initFileUpload(){
 
 function main(){
   initDB();
+  createLoggingFile();
   initShareButton();
   initFileUpload();
 
