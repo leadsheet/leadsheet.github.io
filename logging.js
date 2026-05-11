@@ -21,12 +21,12 @@ function initLogsystem(levelID){
     }
 
 }
-function createLog(timeStamp,xpos,ypos,levelID){
-    return {timeStamp: timeStamp,x: xpos,y:ypos,level: levelID};
+function createLog(timeStamp,xpos,ypos,eventtype,levelID){
+    return {t: timeStamp,x: xpos,y:ypos,e: eventtype,l: levelID};
 }
 
-function logAction(xpos,ypos){
-    initLogsystem.logCollection.push(createLog(performance.now(),xpos,ypos,initLogsystem.currentLevelID));
+function logAction(xpos,ypos,eventtype){
+    initLogsystem.logCollection.push(createLog(performance.now(),xpos,ypos,eventtype,initLogsystem.currentLevelID));
     
 
 }
@@ -50,6 +50,7 @@ function saveLogs(){
         let request = logStore.put(item);
 
         request.onsuccess = function(){
+            initLogsystem.logCollection.shift()
             console.log("Log succesul saved");
         }
         request.onerror = function(){
@@ -62,15 +63,17 @@ function saveLogs(){
         console.error("Error",openRequest.error);
     }
     openRequest.oncomplete = function(){
-        console.log("Complete Logging");
+        console.error("Complete Logging");
         initLogsystem.logCollection = [];
     }
 }
+
 
 function getLogs(){
     let logsReady = new Promise(function(resolve,reject){
 
     let openRequest = indexedDB.open('logDatabase',1);
+    let fileContent = "";
     openRequest.onsuccess = function(){
         let db = openRequest.result;
 
@@ -78,13 +81,31 @@ function getLogs(){
 
         let logStore = transaction.objectStore('logStore');
 
-        let request = logStore.getAll();
+        let request = logStore.openCursor();
 
         request.onsuccess = function(){
-            resolve(request.result);
-        }
+            let cursor = request.result;
+            if(cursor){
+                let key = cursor.key;
+                let value = cursor.value;
+                //console.log(key,value);
+                function replacer(key,value){
+                    if(key == "id") {return undefined;}
+                    if(key == "e"){return value.substring(5);}
+                    return value;
+                }
+                fileContent = fileContent + JSON.stringify(value,replacer) + ",";
 
-        request.onerror = function(){
+                cursor.continue();
+            }
+            else{
+                console.log("all data read");
+                resolve(fileContent);
+            }
+        }
+        
+
+        request.onerror = function(){;
             console.error(request.error);
             reject(false);
         }

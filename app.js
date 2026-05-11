@@ -1,4 +1,4 @@
-const debugMode = false;
+const debugMode = true;
 function isPWA(){
     const UA = navigator.userAgent;
 
@@ -25,7 +25,7 @@ function main(){
         const pLevelData = getLevelDataObject()
         pLevelData.then(
             function(levelData){
-                if(levelData !== undefined){
+                if(levelData !== undefined && parseInt(localStorage.getItem("currentLevel"))!== 1001){
                     location.replace('./game.html');
                 }
             },

@@ -221,7 +221,8 @@ function touchHandler(e,canvas,state,inputs){
 
     playerX = e.touches[0].pageX - canvas.offsetLeft;
     playerY = e.touches[0].pageY - canvas.offsetTop;
-    logAction(playerX,playerY);
+    logAction(playerX,playerY,e.type);
+    console.log(initLogsystem.logCollection.length);
 
     if(e.type == 'touchstart'){
       setTouchData(touchData,playerX,playerY,playerX,playerY,performance.now(),null);
@@ -361,7 +362,6 @@ function updateCurrentPiece(state,inputs,dt,ctx){
   else{
     if(touchData.time.timeStampTouchEnd != null){
     updateCurrentPiece.pieceDropDown = 0;
-    console.log("reset");
     }
   }
 }
@@ -401,8 +401,11 @@ function updateScore(newScore){
 }
 
 function updateTime(state){
-  const elapsedTime = performance.now() - state.startTime
-  //document.getElementById("time-counter").innerText = Math.floor(elapsedTime);
+  const elapsedTime = performance.now() - state.startTime;
+  const data = new Date(elapsedTime);
+  console.log(data.getSeconds());
+  const timerText = `${data.getMinutes()}`.padStart(2,'0') + ':' + `${data.getSeconds()}`.padStart(2,'0');
+  document.getElementById("time-counter").innerText = timerText;
 }
 
 function handleCurrentPieceLanding(state){

@@ -1,10 +1,28 @@
-
+//Download Logs
 function initShareButton(){
   const shareButton = document.getElementById("share-button");
   
   shareButton.addEventListener("click", async() => {
-    let file = createLoggingFile();
+    //let file = createLoggingFile();
+    const pGetLogs = getLogs();
 
+    pGetLogs.then(
+      function(fileContent){
+        const file = new File([fileContent],"Logging.txt",{type:'text/plain'});
+        const shareData = {
+          title: "Logging File",
+          text: "Share this file over WhatsApp",
+          files: [file]
+        }
+        try{
+          navigator.share(shareData);
+        }catch(err){
+          alert(`Error: ${err}`);
+        }
+      }
+    )
+
+    /*
     const shareData = {
     title: "Logging File",
     text: "Share this file over WhatsApp",
@@ -16,27 +34,15 @@ function initShareButton(){
     } catch (err) {
       alert(`Error: ${err}`);
     };
+    */
 });
 
 }
 
 
-function createLoggingFile(){
-  const options = {type: 'text/plain'};
-  if(createLoggingFile.preProcessedFile === undefined){
-    let promiseLogs = getLogs();
-    promiseLogs.then(function(value){
-      let content = JSON.stringify(value);
-      createLoggingFile.preProcessedFile = new File([content],"Logging File.txt",options);
-      alert("Created Logging File succeeful");
-      initShareButton();
-    },)
-  }
-  else{
-    return createLoggingFile.preProcessedFile;
-  }
-}
 
+
+//Upload Gamefile
 function initFileUpload(){
   const inputElmt = document.getElementById("file-upload");
   const output = document.getElementById("output");
@@ -76,10 +82,8 @@ function initFileUpload(){
 
 function main(){
   initDB();
-  createLoggingFile();
   initFileUpload();
-
-
+  initShareButton();
 }
 
 
