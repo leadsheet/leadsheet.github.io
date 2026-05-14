@@ -21,22 +21,29 @@ function initShareButton(){
         }
       }
     )
-
-    /*
-    const shareData = {
-    title: "Logging File",
-    text: "Share this file over WhatsApp",
-    files: [file],
-    };
-  
-    try {
-      navigator.share(shareData);
-    } catch (err) {
-      alert(`Error: ${err}`);
-    };
-    */
 });
+}
 
+function initCalculateButton(){
+  const cbutton = document.getElementById("calculate-button");
+
+  cbutton.addEventListener("click",function(){
+    console.log("Hi");
+    const pLogSize = calculateLogSize();
+    cbutton.innerText = "Calculate...";
+    pLogSize.then(
+      function(fileSize){
+        alert("LogFileSize: " + fileSize/1000 + "kb");
+      },
+      function(value){
+        alert("Error during Calculation");
+      }
+    )
+    pLogSize.finally(function(){
+      cbutton.innerText = "Calculate filesize";
+    })
+
+  })
 }
 
 
@@ -84,6 +91,7 @@ function main(){
   initDB();
   initFileUpload();
   initShareButton();
+  initCalculateButton();
 }
 
 

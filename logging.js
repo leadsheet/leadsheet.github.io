@@ -120,6 +120,60 @@ function getLogs(){
 
 }
 
+
+function calculateLogSize(){
+    let logsReady = new Promise(function(resolve,reject){
+
+    let openRequest = indexedDB.open('logDatabase',1);
+    let fileSize = 0;
+    openRequest.onsuccess = function(){
+        let db = openRequest.result;
+
+        let transaction = db.transaction('logStore','readonly');
+
+        let logStore = transaction.objectStore('logStore');
+
+        let request = logStore.openCursor();
+
+        request.onsuccess = function(){
+            let cursor = request.result;
+            if(cursor){
+                let key = cursor.key;
+                let value = cursor.value;
+                //console.log(key,value);
+                function replacer(key,value){
+                    if(key == "id") {return undefined;}
+                    if(key == "e"){return value.substring(5);}
+                    return value;
+                }
+                let contentString = JSON.stringify(value,replacer);
+                const byteSize = new Blob([contentString]).size;
+                fileSize += byteSize;
+
+                cursor.continue();
+            }
+            else{
+                console.log("all data read");
+                resolve(fileSize);
+            }
+        }
+        
+
+        request.onerror = function(){;
+            console.error(request.error);
+            reject(false);
+        }
+    }
+    openRequest.onerror = function(){
+        reject(false);
+    }
+
+    })
+
+    return logsReady;
+
+}
+
 window.onload = (event) => {
 
 }
