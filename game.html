@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="manifest" href="manifest.webmanifest">
+
+    <title>Playground</title>
+
+    <script type="module" crossorigin src="/assets/game-BRHCqkjG.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/levelHandle-DFWVUHHj.js">
+    <link rel="modulepreload" crossorigin href="/assets/logging-CbktLNOA.js">
+    <link rel="stylesheet" crossorigin href="/assets/game-Cl8sieVg.css">
+  </head>
+  <body>
+    <div class="phone-wrapper">
+      <div class="container" id="contain">
+        <div class="level-board">
+          <img class="settings-icon" >
+          <p id="level-text">Level 1</p>
+          <img id="settings-icon" onclick="location.replace('index.html')">
+        </div>
+
+        <div class="number-board">
+          <div class="number-board-item">
+            <div class="number-organizer">
+              <p class="stat-title">GOAL</p>
+              <p><span id="goal-counter" style="font-size: 30px;">0</span>/1000</p>
+            </div>
+          </div>
+          <div class="number-board-item">
+            <div class="number-organizer">
+              <p class="stat-title">Time</p>
+              <p id="time-counter" style="font-size: 30px">00:00</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="canvas-board">
+          <canvas id="game"></canvas>
+        </div>
+        <div class="bottom-board">
+          
+        </div>
+      </div>
+    <div>
+  </body>
+</html>
