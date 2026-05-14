@@ -1,6 +1,6 @@
 @font-face{
     font-family: playFont;
-    src: url(assets/Play-Bold.ttf)
+    src: url("../assets/Play-Bold.ttf")
 }
 body{
     overflow: hidden;
